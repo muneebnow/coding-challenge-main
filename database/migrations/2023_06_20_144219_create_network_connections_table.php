@@ -20,8 +20,6 @@ return new class extends Migration
             $table->enum('status',['Pending','Accepted','Rejected'])->default('Pending');
             $table->timestamps();
 
-            $table->foreign('sender_id')->references('id')->on('users');
-            $table->foreign('receiver_id')->references('id')->on('users');
         });
     }
 
