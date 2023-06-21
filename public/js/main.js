@@ -101,7 +101,29 @@ function getMoreConnectionsInCommon(userId, connectionId) {
 }
 
 function getSuggestions() {
-  // your code here...
+    $(document).ready(function(){
+        $('#request_received').attr('class','d-none');
+            $('#suggestion').attr('class','d-block');
+            $('#request_sent').attr('class','d-none');
+            $('#connection').attr('class','d-none');
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type:'POST',
+                url:'/get_suggestions',
+                data:{
+
+                },
+                success: function(data) {
+                    // $('#suggestions').html("");
+                    $('#suggestion').html(data.data);
+                }
+            });
+     });
 }
 
 function getMoreSuggestions() {
@@ -110,19 +132,115 @@ function getMoreSuggestions() {
 }
 
 function sendRequest(userId, suggestionId) {
-  // your code here...
+    $(document).ready(function(){
+        $('#request_received').attr('class','d-none');
+            $('#suggestion').attr('class','d-block');
+            $('#request_sent').attr('class','d-none');
+            $('#connection').attr('class','d-none');
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type:'POST',
+                url:'/connect',
+                data:{
+                    userId:userId,
+                    requestId:suggestionId,
+
+                },
+                success: function(data) {
+                    // $('#request_received').html("");
+                    $('#sent_request_div_'+userId).remove();
+                }
+            });
+     });
 }
 
 function deleteRequest(userId, requestId) {
-  // your code here...
+    $(document).ready(function(){
+        $('#request_received').attr('class','d-none');
+            $('#suggestion').attr('class','d-none');
+            $('#request_sent').attr('class','d-block');
+            $('#connection').attr('class','d-none');
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type:'POST',
+                url:'/withdraw_requests',
+                data:{
+                    userId:userId,
+                    requestId:requestId,
+
+                },
+                success: function(data) {
+                    // $('#request_received').html("");
+                    $('#sent_request_div_'+userId).remove();
+                }
+            });
+     });
 }
 
 function acceptRequest(userId, requestId) {
-  // your code here...
+    $(document).ready(function(){
+        $('#request_received').attr('class','d-block');
+            $('#suggestion').attr('class','d-none');
+            $('#request_sent').attr('class','d-none');
+            $('#connection').attr('class','d-none');
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type:'POST',
+                url:'/accept_request',
+                data:{
+                    userId:userId,
+                    requestId:requestId,
+
+                },
+                success: function(data) {
+                    // $('#request_received').html("");
+                    $('#request_div_'+data.data).remove();
+                }
+            });
+     });
 }
 
-function removeConnection(userId, connectionId) {
-  // your code here...
+function removeConnection(userId, requestId) {
+    $(document).ready(function(){
+        $('#request_received').attr('class','d-none');
+            $('#suggestion').attr('class','d-none');
+            $('#request_sent').attr('class','d-none');
+            $('#connection').attr('class','d-block');
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type:'POST',
+                url:'/remove_connections',
+                data:{
+                    userId:userId,
+                    requestId:requestId,
+
+                },
+                success: function(data) {
+                    // $('#request_received').html("");
+                    $('#connection_div_'+data.data).remove();
+                }
+            });
+     });
 }
 
 $(function () {

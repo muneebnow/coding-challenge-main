@@ -19,7 +19,7 @@ class RequestController extends Controller
         $get_requests=NetworkConnection::where('sender_id',Auth::user()->id)->where('status','Pending')->orderBy('id','DESC')->get();
         $requests='';
         foreach($get_requests as $keys=>$values){
-            $requests.='<div class="my-2 shadow text-white bg-dark p-1" id=""><div class="d-flex justify-content-between"><table class="ms-1"> <td class="align-middle">'.$values->receiver->name.'</td><td class="align-middle">-</td><td class="align-middle">'.$values->receiver->email.'</td><td class="align-middle"></table><div><button id="cancel_request_btn_'.$values->receiver->id.'" class="btn btn-danger me-1" onclick="">Withdraw Request</button></div></div></div>';
+            $requests.='<div class="my-2 shadow text-white bg-dark p-1" id="sent_request_div_'.$values->receiver->id.'"><div class="d-flex justify-content-between"><table class="ms-1"> <td class="align-middle">'.$values->receiver->name.'</td><td class="align-middle">-</td><td class="align-middle">'.$values->receiver->email.'</td><td class="align-middle"></table><div><button id="cancel_request_btn_'.$values->receiver->id.'" class="btn btn-danger me-1" onclick="deleteRequest('.$values->receiver->id.','.Auth::user()->id.')">Withdraw Request</button></div></div></div>';
         }
         // dd($requests);
         return response()->json(['data'=>$requests]);
@@ -86,8 +86,10 @@ class RequestController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
 
+        $withdraw_request=NetworkConnection::where('sender_id',$request->requestId)->where('receiver_id',$request->userId)->delete();
+        return response()->json(['data'=>$request->userId]);
     }
 }

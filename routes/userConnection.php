@@ -8,7 +8,12 @@ use App\Http\Controllers\ReceivedController;
 
 
 Route::get('/home',[SuggestionController::class,'index'])->name('home');
+Route::post('/get_suggestions',[SuggestionController::class,'create'])->name('get_suggestions');
+Route::post('/connect',[SuggestionController::class,'store'])->name('connect');
 Route::post('/sent_requests',[RequestController::class,'index'])->name('sent_requests');
+Route::post('/withdraw_requests',[RequestController::class,'destroy'])->name('withdraw_requests');
 Route::post('/received_requests',[ReceivedController::class,'index'])->name('received_requests');
+Route::post('/accept_request',[ReceivedController::class,'update'])->name('accept_request');
 Route::post('/get_connections',[ConnectionController::class,'index'])->name('get_connections');
+Route::post('/remove_connections',[ConnectionController::class,'destroy'])->name('remove_connections');
 
