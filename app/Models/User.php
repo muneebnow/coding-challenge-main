@@ -43,6 +43,15 @@ class User extends Authenticatable
     ];
 
     public function NetworkConnection(){
-        return $this->hasMany(App\Models\NetworkConnection::class);
+        return $this->hasMany(NetworkConnection::class,'sender_id');
+    }
+    public function sentConnections()
+    {
+        return $this->hasMany(NetworkConnection::class, 'sender_id');
+    }
+
+    public function receivedConnections()
+    {
+        return $this->hasMany(NetworkConnection::class, 'receiver_id');
     }
 }

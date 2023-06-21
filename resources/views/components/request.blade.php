@@ -7,13 +7,13 @@
       <td class="align-middle">
     </table>
     <div>
-      @if ($mode == 'sent')
+      {{-- @if ($mode == 'sent')
         <button id="cancel_request_btn_" class="btn btn-danger me-1"
           onclick="">Withdraw Request</button>
       @else
         <button id="accept_request_btn_" class="btn btn-primary me-1"
           onclick="">Accept</button>
-      @endif
+      @endif --}}
     </div>
   </div>
 </div>

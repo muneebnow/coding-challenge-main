@@ -1,13 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
 use App\models\User;
 use App\models\NetworkConnection;
 use Auth;
 
-use Illuminate\Http\Request;
-
-class ConnectionController extends Controller
+class ReceivedController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,36 +16,13 @@ class ConnectionController extends Controller
      */
     public function index()
     {
-        $get_connections=NetworkConnection::where('sender_id',Auth::user()->id)->where('status','Accepted')->orWhere('receiver_id',Auth::user()->id)->where('status','Accepted')->orderBy('id','DESC')->get();
+        $get_received=NetworkConnection::where('receiver_id',Auth::user()->id)->where('status','Pending')->orderBy('id','DESC')->get();
         $requests='';
-        foreach($get_connections as $keys=>$values){
-            // if($values->sender->id == Auth::user()->id || $values->receiver->id == Auth::user()->id){
-
-            // }else{
-                $requests.='<div class="my-2 shadow text-white bg-dark p-1" id="">
-                <div class="d-flex justify-content-between">
-                  <table class="ms-1">
-                    <td class="align-middle">'.$values->sender->name.'</td>
-                    <td class="align-middle"> - </td>
-                    <td class="align-middle">'.$values->sender->email.'</td>
-                    <td class="align-middle">
-                  </table>
-                  <div>
-                    <button style="width: 220px" id="get_connections_in_common_" class="btn btn-primary" type="button"
-                      data-bs-toggle="collapse" data-bs-target="#collapse_" aria-expanded="false" aria-controls="collapseExample">
-                      Connections in common ()
-                    </button>
-                    <button id="create_request_btn_" class="btn btn-danger me-1">Remove Connection</button>
-                  </div>
-
-                </div>';
-
-            // }
-
-
+        foreach($get_received as $keys=>$values){
+            $requests.='<div class="my-2 shadow text-white bg-dark p-1" id=""><div class="d-flex justify-content-between"><table class="ms-1"> <td class="align-middle">'.$values->sender->name.'</td><td class="align-middle">-</td><td class="align-middle">'.$values->sender->email.'</td><td class="align-middle"></table><div><button id="accept_request_btn_'.$values->sender->id.'" class="btn btn-primary me-1" onclick="">Accept</button></div></div></div>';
         }
+        // dd($requests);
         return response()->json(['data'=>$requests]);
-
 
     }
 

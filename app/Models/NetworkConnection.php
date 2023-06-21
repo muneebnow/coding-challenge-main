@@ -13,6 +13,16 @@ class NetworkConnection extends Model
         'sender_id','receiver_id'
     ];
     public function User(){
-        return $this->belongsTo(App\Models\User::class);
+        return $this->belongsTo(User::class,'id');
+    }
+
+    public function sender()
+    {
+        return $this->belongsTo(User::class, 'sender_id');
+    }
+
+    public function receiver()
+    {
+        return $this->belongsTo(User::class, 'receiver_id');
     }
 }

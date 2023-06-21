@@ -6,9 +6,10 @@
     integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
   <script src="{{ asset('js/helper.js') }}?v={{ time() }}" defer></script>
   <script src="{{ asset('js/main.js') }}?v={{ time() }}" defer></script>
-
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <div class="container">
     {{-- <x-dashboard /> --}}
-    <x-network_connections />
+    {{-- <x-network_connections :get_suggestions="$get_suggestions"/> --}}
+    @include('components.network_connections')
   </div>
 @endsection
