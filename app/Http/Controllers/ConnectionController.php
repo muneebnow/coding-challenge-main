@@ -20,16 +20,16 @@ class ConnectionController extends Controller
 
         $requests='';
         foreach($get_connections as $keys=>$values){
-            // $user1Id = Auth::user()->id; // Replace with the first user's ID
-            // $user2Id = $values->sender->id; // Replace with the second user's ID
+            $user1Id = Auth::user()->id; // Replace with the first user's ID
+            $user2Id = $values->sender->id; // Replace with the second user's ID
 
-            // $user1 = User::findOrFail($user1Id);
-            // $user2 = User::findOrFail($user2Id);
+            $user1 = User::findOrFail($user1Id);
+            $user2 = User::findOrFail($user2Id);
 
-            // $mutualFriends = $user1->connections()
-            //     ->whereIn('receiver_id', $user2->connections()->pluck('sender_id'))
-            //     ->pluck('receiver_id')
-            //     ->toArray();
+            $mutualFriends = $user1->connections()
+                ->whereIn('receiver_id', $user2->connections()->pluck('sender_id'))
+                ->pluck('receiver_id')
+                ->toArray();
 
             // I tried many solutions for getting connections in common but these couldn't show the
             // right result to this scenario. Above is the one of the queries which i tried to solve that
