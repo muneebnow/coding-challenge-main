@@ -13,6 +13,10 @@ function getRequests(status) {
         $('#request_received').attr('class','d-none');
         $('#suggestion').attr('class','d-none');
         $('#connection').attr('class','d-none');
+        $('#get_sent_requests_btn').on('click',function(){
+
+            $('#request_sent').html("");
+        });
         $('#request_sent').attr('class','d-block');
         var html='<div class="d-flex align-items-center  mb-2  text-white bg-dark p-1 shadow skelton_div" style="height: 45px"> <strong class="ms-1 text-primary">Loading...</strong> <div class="spinner-border ms-auto text-primary me-4" role="status" aria-hidden="true"></div> </div>';
         var html1="";
@@ -51,6 +55,10 @@ function getRequests(status) {
         $('#request_sent').attr('class','d-none');
         $('#suggestion').attr('class','d-none');
         $('#connection').attr('class','d-none');
+        $('#get_received_requests_btn').on('click',function(){
+
+            $('#request_received').html("");
+        });
         $('#request_received').attr('class','d-block');
         var html='<div class="d-flex align-items-center  mb-2  text-white bg-dark p-1 shadow skelton_div" style="height: 45px"> <strong class="ms-1 text-primary">Loading...</strong> <div class="spinner-border ms-auto text-primary me-4" role="status" aria-hidden="true"></div> </div>';
         var html1="";
@@ -96,9 +104,13 @@ function getMoreRequests(mode) {
 
 function getConnections() {
  $(document).ready(function(){
-    $('#request_received').attr('class','d-none');
+        $('#request_received').attr('class','d-none');
         $('#suggestion').attr('class','d-none');
         $('#request_sent').attr('class','d-none');
+        $('#get_connections_btn').on('click',function(){
+
+            $('#connection').html("");
+        });
         $('#connection').attr('class','d-block');
 
             // 'data' variable contains the HTML content of the file
@@ -159,6 +171,10 @@ function getMoreConnectionsInCommon(userId, connectionId) {
 function getSuggestions() {
     $(document).ready(function(){
         $('#request_received').attr('class','d-none');
+        $('#get_suggestions_btn').on('click',function(){
+
+            $('#suggestion').html("");
+        });
             $('#suggestion').attr('class','d-block');
             $('#request_sent').attr('class','d-none');
             $('#connection').attr('class','d-none');
