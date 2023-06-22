@@ -17,7 +17,7 @@ class ConnectionInCommonSeeder extends Seeder
     {
 
 
-        for($i=2;$i<=10;$i++){
+        for($i=2;$i<=140;$i++){
             NetworkConnection::create([
                 'sender_id' => $i,
                 'receiver_id' => ($i % 10) + 1,

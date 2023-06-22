@@ -6,7 +6,7 @@
         {{-- @dd($get_suggestions) --}}
         <div class="btn-group w-100 mb-3" role="group" aria-label="Basic radio toggle button group">
           <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
-          <label class="btn btn-outline-primary" for="btnradio1" id="get_suggestions_btn" onclick="getSuggestions();">Suggestions ({{count($get_suggestions)}})</label>
+          <label class="btn btn-outline-primary" for="btnradio1" id="get_suggestions_btn" onclick="getSuggestions();">Suggestions ({{count($get_suggestions_count)}})</label>
 
           <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
           <label class="btn btn-outline-primary" for="btnradio2" id="get_sent_requests_btn" onclick="return getRequests('sent');">Sent Requests ({{count($get_requests)}})</label>
@@ -25,17 +25,14 @@
         <div id="request_received" class="d-none">
 
         </div>
-        <div id="suggestion" class="d-block">
+        <div id="suggestion" class="d-none">
 
-            {!! $suggestion_listing !!}
 
         </div>
         <div id="connection" class="d-none">
 
         </div>
-        <div class="d-flex justify-content-center mt-2 py-3 {{--d-none--}}" id="load_more_btn_parent">
-          <button class="btn btn-primary" onclick="" id="load_more_btn">Load more</button>
-        </div>
+
       </div>
     </div>
   </div>

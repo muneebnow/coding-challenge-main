@@ -14,70 +14,37 @@ class SuggestionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        // dd($request->all());
-        $loggedInUserId = auth()->user()->id;
+        // $get_auth_sender=NetworkConnection::where('sender_id',Auth::user()->id)->where('receiver_id',Auth::user()->id)->orderBy('id','ASC')->get();
 
-        $get_suggestions = User::whereNotIn('id', function ($query) use ($loggedInUserId) {
-            $query->select('receiver_id')
-                ->from('network_connections')
-                ->where('sender_id', $loggedInUserId);
-        })->whereNotIn('id', function ($query) use ($loggedInUserId) {
-                $query->select('sender_id')
-                    ->from('network_connections')
-                    ->where('receiver_id', $loggedInUserId);
-            })->where('id', '!=', $loggedInUserId)->paginate(10);
-
-
-        $suggestion_listing="";
-        // if($request->ajax()){
-
-            foreach($get_suggestions as $keys=>$values){
-                $suggestion_listing.='<div class="my-2 shadow  text-white bg-dark p-1" id="send_request_to_connect_'.$values->id.'">
-                <div class="d-flex justify-content-between">
-                  <table class="ms-1">
-                    <td class="align-middle">'.$values->name.'</td>
-                    <td class="align-middle"> - </td>
-                    <td class="align-middle">'.$values->email.'</td>
-                    <td class="align-middle">
-                  </table>
-                  <div>
-                    <button id="create_request_btn_" class="btn btn-primary me-1" onclick="sendRequest('.Auth::user()->id.', '.$values->id.')">Connect</button>
-                  </div>
-                </div>
-              </div>
-              <input type="hidden" class="page_no" value="'.$request->page_no.'">';
-            }
+        // $get_auth_receiver=NetworkConnection::where('receiver_id',Auth::user()->id)->orderBy('id','ASC')->get();
+        // $get_suggestions=[];
+        // foreach($get_auth_receiver as $keys=>$values){
+        //     $get_suggestions[] = User::where('id','!=',Auth::user()->id)->where('id','!=',$values->sender_id)->first();
         // }
-        $suggestion_listing.=' <div class="d-flex justify-content-center mt-2 py-3 {{--d-none--}}" id="load_more_btn_parent_suggestions">
-        <button class="btn btn-primary" onclick="getSuggestions()" id="load_more_btn_suggestions">Load more</button>
-      </div>
-        ';
+        $get_suggestions=User::where('id','!=',Auth::user()->id)->orderBy('id','ASC')->get();
+        $suggestion_listing="";
+        foreach($get_suggestions as $keys=>$values){
+            $suggestion_listing.='<div class="my-2 shadow  text-white bg-dark p-1" id="send_request_to_connect_'.$values->id.'">
+            <div class="d-flex justify-content-between">
+              <table class="ms-1">
+                <td class="align-middle">'.$values->name.'</td>
+                <td class="align-middle"> - </td>
+                <td class="align-middle">'.$values->email.'</td>
+                <td class="align-middle">
+              </table>
+              <div>
+                <button id="create_request_btn_" class="btn btn-primary me-1" onclick="sendRequest('.Auth::user()->id.', '.$values->id.')">Connect</button>
+              </div>
+            </div>
+          </div>';
+        }
 
-
-
-        $get_suggestions_count=User::whereNotIn('id', function ($query) use ($loggedInUserId) {
-            $query->select('receiver_id')
-                ->from('network_connections')
-                ->where('sender_id', $loggedInUserId);
-        })
-            ->whereNotIn('id', function ($query) use ($loggedInUserId) {
-                $query->select('sender_id')
-                    ->from('network_connections')
-                    ->where('receiver_id', $loggedInUserId);
-            })
-            ->where('id', '!=', $loggedInUserId)->get();
         $get_requests=NetworkConnection::where('sender_id',Auth::user()->id)->where('status','Pending')->orderBy('id','DESC')->get();
         $get_received=NetworkConnection::where('receiver_id',Auth::user()->id)->where('status','Pending')->orderBy('id','DESC')->get();
         $get_connections=NetworkConnection::where('sender_id',Auth::user()->id)->where('status','Accepted')->orWhere('receiver_id',Auth::user()->id)->where('status','Accepted')->orderBy('id','DESC')->get();
-        // $get_suggestions_count=[1,2,3];
-         if($request->ajax()){
-            return response()->json(['data'=>$suggestion_listing]);
-        }else{
-
-            return view('home',compact('get_suggestions_count','get_requests','get_received','get_connections','suggestion_listing'));
-        }
+        return view('home',compact('get_suggestions','get_requests','get_received','get_connections','suggestion_listing'));
     }
 
     /**

@@ -14,13 +14,18 @@ class RequestController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $get_requests=NetworkConnection::where('sender_id',Auth::user()->id)->where('status','Pending')->orderBy('id','DESC')->get();
+        $get_requests=NetworkConnection::where('sender_id',Auth::user()->id)->where('status','Pending')->orderBy('id','DESC')->paginate(10);
+        $sent="'sent'";
         $requests='';
         foreach($get_requests as $keys=>$values){
-            $requests.='<div class="my-2 shadow text-white bg-dark p-1" id="sent_request_div_'.$values->receiver->id.'"><div class="d-flex justify-content-between"><table class="ms-1"> <td class="align-middle">'.$values->receiver->name.'</td><td class="align-middle">-</td><td class="align-middle">'.$values->receiver->email.'</td><td class="align-middle"></table><div><button id="cancel_request_btn_'.$values->receiver->id.'" class="btn btn-danger me-1" onclick="deleteRequest('.$values->receiver->id.','.Auth::user()->id.')">Withdraw Request</button></div></div></div>';
+            $requests.='<div class="my-2 shadow text-white bg-dark p-1" id="sent_request_div_'.$values->receiver->id.'"><div class="d-flex justify-content-between"><table class="ms-1"> <td class="align-middle">'.$values->receiver->name.'</td><td class="align-middle">-</td><td class="align-middle">'.$values->receiver->email.'</td><td class="align-middle"></table><div><button id="cancel_request_btn_'.$values->receiver->id.'" class="btn btn-danger me-1" onclick="deleteRequest('.$values->receiver->id.','.Auth::user()->id.')">Withdraw Request</button></div></div></div><input type="hidden" class="page_no" value="'.$request->page_no.'">';
         }
+        $requests.=' <div class="d-flex justify-content-center mt-2 py-3 {{--d-none--}}" id="load_more_btn_parent_sent">
+        <button class="btn btn-primary" onclick="return getRequests('.$sent.');" id="load_more_btn_sent" >Load more</button>
+      </div>
+      ';
         // dd($requests);
         return response()->json(['data'=>$requests]);
     }

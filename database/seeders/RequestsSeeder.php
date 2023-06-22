@@ -15,7 +15,7 @@ class RequestsSeeder extends Seeder
      */
     public function run()
     {
-        for($i=2;$i<5;$i++){
+        for($i=2;$i<180;$i++){
             NetworkConnection::create([
                 'sender_id' => $i,
                 'receiver_id'=> 1

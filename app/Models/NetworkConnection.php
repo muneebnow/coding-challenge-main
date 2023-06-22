@@ -12,9 +12,9 @@ class NetworkConnection extends Model
     protected $fillable=[
         'sender_id','receiver_id'
     ];
-    public function User(){
-        return $this->belongsTo(User::class,'id');
-    }
+    // public function User(){
+    //     return $this->belongsTo(User::class,'id');
+    // }
 
     public function sender()
     {

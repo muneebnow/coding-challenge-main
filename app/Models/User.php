@@ -42,9 +42,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function NetworkConnection(){
-        return $this->hasMany(NetworkConnection::class,'sender_id');
-    }
+    // public function NetworkConnection(){
+    //     return $this->hasMany(NetworkConnection::class,'sender_id');
+    // }
     public function sentConnections()
     {
         return $this->hasMany(NetworkConnection::class, 'sender_id');
